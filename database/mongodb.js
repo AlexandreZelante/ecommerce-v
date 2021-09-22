@@ -2,20 +2,33 @@ const { MongoClient } = require('mongodb');
 
 const connectionString = 'mongodb+srv://admin:admin@cluster0.qcqmz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
-MongoClient.connect(connectionString, (err, client) => {
-  if (err) {
-    console.log('Err', err);
-    // Return 
-  }
+const database = 'ecommerce-v';
 
-  const db = client.db('ecommerce-v');
+function create (collection, data) {
+  return new Promise ((resolve, reject) => {
+    MongoClient.connect(connectionString, (err, client) => {
+      if (err) {
+        console.log('Err', err);
+        return reject(err);
+      }
 
-  db.collection('products').insertOne({name: "shoes", price: 10}).then(response => {
-    console.log('good', response);
-  }).catch(err => {
-    console.log(err);
+      const db = client.db('ecommerce-v');
+    
+      db.collection(collection).insertOne(data).then(response => {
+        console.log('good', response);
+        return resolve(response);
+      })
+    });
   })
-});
+}
+
+module.exports = {
+  create
+}
+
+
+// create().then(response => {}).catch(error => {});
+
+
 
 //create functions to create, delete, update and find data 
-//connect with router - controller - 
