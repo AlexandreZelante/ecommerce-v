@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 const router = Router();
 
-const { create } = require("../database/mongodb");
+const { create, findAll } = require("../database/mongodb");
 // Rotas:
 // - GET: /products, /products/:id
 // - POST: /products
@@ -39,10 +39,11 @@ const products = [
 
 // User -> Routes -> Controller (All logic) -> Calls Database (connection)
 
-router.get('/products', (req, res) => {
+router.get('/products', async (req, res) => {
   // Return all products
+  const response = await findAll("products");
 
-  res.send(products);
+  res.send(response);
 });
 
 router.get('/products/:id', (req, res) => {
@@ -56,6 +57,7 @@ router.get('/products/:id', (req, res) => {
 // Add new product
 router.post('/products', async  (req, res) => {
   const product = req.body;
+
   try {
     const response = await create("products", product);
 

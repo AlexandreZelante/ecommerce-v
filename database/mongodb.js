@@ -22,8 +22,27 @@ function create (collection, data) {
   })
 }
 
+function findAll (collection){
+  return new Promise ((resolve, reject) => {
+    MongoClient.connect(connectionString, (err, client) => {
+      if (err) {
+        console.log('Err', err);
+        return reject(err);
+      }
+
+      const db = client.db('ecommerce-v');
+    
+      db.collection(collection).find({}).toArray().then(response => {
+        console.log('Find all response', response);
+        return resolve(response);
+      })
+    });
+  })
+}
+
 module.exports = {
-  create
+  create,
+  findAll
 }
 
 
