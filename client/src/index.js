@@ -1,0 +1,12 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import Routes from "./routes";
+import GlobalStateProvider from "./hooks/globalState";
+
+ReactDOM.render(
+  <React.StrictMode>
+    <GlobalStateProvider>
+      <Routes />
+    </GlobalStateProvider>
+  </React.StrictMode>,
+);
